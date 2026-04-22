@@ -20,7 +20,7 @@ fn main() -> anyhow::Result<()> {
             let tasks = storage::load()?;
             commands::list_tasks(&tasks)
         }
-        Command::Add { title } => add_task(title)?,
+        Command::Add { title, description } => add_task(title, description)?,
         Command::Start { id } => start_task(id)?,
         Command::Show { id } => show_task(id)?,
         Command::Delete { id } => delete_task(id)?,
@@ -80,10 +80,10 @@ fn complete_task(task_id: String) -> anyhow::Result<()> {
     Ok(())
 }
 
-fn add_task(task_title: String) -> Result<(), StateError> {
+fn add_task(task_title: String, task_desc: Option<String>) -> Result<(), StateError> {
     let mut tasks = storage::load()?;
 
-    tasks.push(Task::new(task_title));
+    tasks.push(Task::new(task_title, task_desc));
 
     let _ = storage::save(&tasks);
 

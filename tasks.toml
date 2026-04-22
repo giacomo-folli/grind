@@ -13,3 +13,11 @@ description = ""
 state = "todo"
 created_at = "Tue, 21 Apr 2026 22:15:36 +0200"
 updated_at = "Tue, 21 Apr 2026 22:15:36 +0200"
+
+[[tasks]]
+id = "h6kCeWIE"
+title = "New test"
+description = "Test if the description is saved"
+state = "todo"
+created_at = "Wed, 22 Apr 2026 22:42:25 +0200"
+updated_at = "Wed, 22 Apr 2026 22:42:25 +0200"

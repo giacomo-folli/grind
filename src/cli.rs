@@ -14,7 +14,11 @@ pub enum Command {
     /// Show a specific task
     Show { id: String },
     /// Add a new task in #todo
-    Add { title: String },
+    Add {
+        title: String,
+        #[arg(short, long)]
+        description: Option<String>,
+    },
     /// Move a task in #doing
     Start { id: String },
     /// Change a task's status

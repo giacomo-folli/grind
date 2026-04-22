@@ -63,7 +63,7 @@ updated_at = "2026-04-21T10:00:00Z"
 - [x] Project scaffolding (Cargo, CLI parsing with clap)
 - [x] TOML serialization/deserialization (serde)
 - [x] `init` and `add` commands
-- [ ] `list` with basic table output
+- [x] `list` with basic table output
 
 ### Milestone 2: CRUD (Week 2)
 - [ ] `show`, `edit`, `status`, `delete` commands
