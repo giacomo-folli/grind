@@ -67,12 +67,12 @@ updated_at = "2026-04-21T10:00:00Z"
 
 ### Milestone 2: CRUD (Week 2)
 - [ ] `show`, `edit`, `status`, `delete` commands
-- [ ] UUID generation for task IDs
-- [ ] Timestamps (created_at, updated_at)
+- [x] UUID generation for task IDs
+- [x] Timestamps (created_at, updated_at)
 - [ ] Input validation
 
 ### Milestone 3: Polish (Week 3)
-- [ ] Terminal colors (colored or similar)
+- [ ] Consider switching to `ratatui` 
 - [ ] Status-based filtering
 - [ ] Error handling with anyhow/thiserror
 - [ ] Integration tests
