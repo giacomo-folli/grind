@@ -114,4 +114,5 @@ src/
 - [ ] No panics on invalid input
 - [ ] Single `cargo install` deployment
 
+## Mockup
 ![alt text](image.png)
