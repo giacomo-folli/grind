@@ -39,14 +39,14 @@ pub struct Task {
 }
 
 impl Task {
-    pub fn new(title: String, description: Option<String>) -> Self {
+    pub fn new(title: String) -> Self {
         Self {
             id: nanoid!(8),
             state: DefaultState::Todo,
             created_at: chrono::Local::now().to_rfc2822(),
             updated_at: chrono::Local::now().to_rfc2822(),
+            description: Some(String::new()),
             title,
-            description,
         }
     }
 
