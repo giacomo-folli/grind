@@ -29,17 +29,17 @@ Act stores tasks in `tasks.toml` in the current directory. Each task has a title
 ```toml
 # tasks.toml
 [[task]]
-id = "550e8400-e29b-41d4-a716-446655440000"
+id = "UHLaIonm"
 title = "Implement add command"
 description = "Support adding tasks via CLI"
-status = "doing"
+state = "doing"
 created_at = "2026-04-21T09:00:00Z"
 updated_at = "2026-04-21T11:00:00Z"
 
 [[task]]
-id = "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
+id = "wVarLogf"
 title = "Write tests"
-status = "todo"
+state = "todo"
 created_at = "2026-04-21T10:00:00Z"
 updated_at = "2026-04-21T10:00:00Z"
 ```
