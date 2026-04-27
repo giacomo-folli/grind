@@ -74,9 +74,20 @@ fn update_task_status(task_id: String, task_status: DefaultState) -> anyhow::Res
     Ok(())
 }
 
-fn add_task(task_title: String, task_description: &Option<String>) -> Result<(), StateError> {
+fn add_task(
+    task_title: Option<String>,
+    task_description: &Option<String>,
+) -> Result<(), StateError> {
     let mut tasks = storage::load()?;
-    let mut new_task = Task::new(task_title);
+    let task_def_title;
+
+    if let Some(res) = task_title {
+        task_def_title = res;
+    } else {
+        task_def_title = "New task".to_string()
+    }
+
+    let mut new_task = Task::new(task_def_title);
 
     if let Some(desc) = task_description {
         new_task.description = Some(desc.clone());

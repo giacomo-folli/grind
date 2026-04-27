@@ -25,7 +25,7 @@ pub enum Command {
     Show { id: String },
     /// Add a new task in #todo
     Add {
-        title: String,
+        title: Option<String>,
         #[arg(short, long)]
         description: Option<String>,
     },

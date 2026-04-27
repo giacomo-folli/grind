@@ -69,19 +69,21 @@ updated_at = "2026-04-21T10:00:00Z"
 - [x] `show`, `edit`, `status`, `delete` commands
 - [x] UUID generation for task IDs
 - [x] Timestamps (created_at, updated_at)
-- [ ] Input validation
+- [x] Input validation
 
 ### Milestone 3: Polish (Week 3)
 - [ ] Consider switching to `ratatui` 
 - [ ] Status-based filtering
-- [ ] Error handling with anyhow/thiserror
+- [x] Error handling with anyhow/thiserror
 - [ ] Refactor filtering methods, etc...
 
 ### Milestone 4: Nice-to-Haves (Backlog)
+- [x] Quick add `act add`
 - [ ] Task priorities
 - [ ] Due dates
 - [ ] Global config file (~/.config/act/)
 - [ ] Export to JSON/CSV
+- [ ] Tab Completion for Task Ids
 
 ## Tech Stack
 
