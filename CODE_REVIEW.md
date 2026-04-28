@@ -1,97 +1,92 @@
-## Problemi prioritari (alta priorità)
+## Recommended roadmap
+- [ ] Immediately fix `save` error handling.
+- [ ] Introduce `TaskNotFound` and consistent feedback.
+- [ ] Fix `edit` to support multiple updates.
+- [ ] Remove panic risk in ID slicing.
+- [ ] Extract the service layer and add unit tests to the core.
+- [ ] Align README and the actual data model.
 
-### 1) Errori di salvataggio ignorati
-In più funzioni viene usato `let _ = storage::save(&tasks);`.
+### 1) Ignored save errors
+In several functions, `let _ = storage::save(&tasks);` is used.
 
-**Rischio**: se il salvataggio fallisce, l'utente non riceve errore e crede che l'operazione sia andata a buon fine.
+**Risk**: If saving fails, the user receives no error and believes the operation was successful.
 
-**Miglioria**:
-- Propagare sempre l'errore con `?`.
-- Aggiungere contesto all'errore (`anyhow::Context`) nei layer esterni.
+**Improvement**:
+- Always propagate the error using `?`.
+- Add context to the error (`anyhow::Context`) in the outer layers.
 
-### 2) `edit` non aggiorna sia titolo che descrizione nello stesso comando
-La funzione `edit_task` interrompe il flusso (`break`) subito dopo aver aggiornato uno dei due campi.
+### 2) `edit` does not update both title and description in the same command
+The `edit_task` function interrupts the flow (`break`) immediately after updating one of the two fields.
 
-**Rischio**: comportamento inatteso se l'utente passa `--title` e `--description` insieme.
+**Risk**: Unexpected behavior if the user passes `--title` and `--description` together.
 
-**Miglioria**:
-- Applicare entrambi gli update nello stesso match.
-- Chiamare `update_time()` una sola volta se almeno un campo cambia.
+**Improvement**:
+- Apply both updates in the same match.
+- Call `update_time()` only once if at least one field changes.
 
-### 3) Operazioni mute quando ID non trovato
-`status`, `edit` e `delete` terminano con successo anche se non trovano il task.
+### 3) Silent operations when ID is not found
+`status`, `edit`, and `delete` terminate successfully even if they don't find the task.
 
-**Rischio**: UX ambigua, debugging difficile.
+**Risk**: Ambiguous UX, difficult debugging.
 
-**Miglioria**:
-- Introdurre un errore di dominio (`TaskNotFound`).
-- Stampare feedback esplicito all'utente.
+**Improvement**:
+- Introduce a domain error (`TaskNotFound`).
+- Print explicit feedback to the user.
 
-### 4) Possibile panic su slicing dell'ID
-Nel rendering della lista viene usato `&task.id[..8]`.
+### 4) Possible panic on ID slicing
+In the list rendering, `&task.id[..8]` is used.
 
-**Rischio**: panic se il file TOML contiene ID più corto (es. edit manuale).
+**Risk**: panic if the TOML file contains a shorter ID (e.g., manual edit).
 
-**Miglioria**:
-- Usare `task.id.get(..8).unwrap_or(&task.id)` oppure un approccio Unicode-safe con `chars().take(8)`.
-
----
-
-## Architettura e design
-
-### 5) Logica business troppo concentrata in `main.rs`
-Attualmente `main.rs` contiene parsing CLI, orchestrazione e logica CRUD.
-
-**Miglioria**:
-- Introdurre un service layer (`app.rs` / `service.rs`) con API testabili.
-- Lasciare a `main.rs` solo parsing argomenti e dispatch.
-
-### 6) Incoerenze tra README e implementazione
-La documentazione non è perfettamente allineata al modello dati serializzato.
-
-**Miglioria**:
-- Allineare naming e schema (`state/status`, chiavi TOML, formato esempi).
-- Allineare anche sezione dipendenze/ID generator.
-
-### 7) Gestione del tempo migliorabile
-I timestamp sono `String` RFC2822.
-
-**Limite**: meno robustezza a compile-time e parsing ricorrente in fase di output.
-
-**Miglioria**:
-- Valutare `DateTime<Utc>` nel modello.
-- Usare RFC3339 e gestire esplicitamente date future nel formato relativo.
+**Improvement**:
+- Use `task.id.get(..8).unwrap_or(&task.id)` or a Unicode-safe approach with `chars().take(8)`.
 
 ---
 
-## Metodi e robustezza Rust
+## Architecture and design
 
-### 8) Tipi di errore non uniformi
-Nel codice si alternano `anyhow::Result` e `Result<_, StateError>` senza una separazione netta tra layer.
+### 5) Business logic too concentrated in `main.rs`
+Currently, `main.rs` contains CLI parsing, orchestration, and CRUD logic.
 
-**Miglioria**:
-- Definire una policy: errori tipizzati nel core, `anyhow` al boundary CLI.
+**Improvement**:
+- Introduce a service layer (`app.rs` / `service.rs`) with testable APIs.
+- Leave only argument parsing and dispatching to `main.rs`.
 
-### 9) Default descrizione in `Task::new`
-La descrizione viene inizializzata con `Some(String::new())`.
+### 6) Inconsistencies between README and implementation
+The documentation is not perfectly aligned with the serialized data model.
 
-**Miglioria**:
-- Preferire `None` come assenza di valore.
-- Mostrare la descrizione in lista solo se presente e non vuota.
+**Improvement**:
+- Align naming and schema (`state/status`, TOML keys, example formats).
+- Also align the dependencies/ID generator section.
 
-### 10) `init` distruttivo su file esistente
-`File::create` tronca il file se già presente.
+### 7) Time management can be improved
+Timestamps are RFC2822 `String`s.
 
-**Miglioria**:
-- Rendere `init` idempotente o esplicitare il comportamento con `--force`.
+**Limitation**: Less robustness at compile-time and recurring parsing during output.
+
+**Improvement**:
+- Consider `DateTime<Utc>` in the model.
+- Use RFC3339 and explicitly handle future dates in the relative format.
 
 ---
 
-## Roadmap consigliata
+## Rust methods and robustness
 
-- [ ] Correggere subito gestione errori di `save`.
-- [ ] Introdurre `TaskNotFound` e feedback consistente.
-- [ ] Sistemare `edit` per supportare update multiplo.
-- [ ] Rimuovere rischio panic nello slicing ID.
-- [ ] Estrarre service layer e aggiungere test unitari sul core.
-- [ ] Allineare README e modello dati reale.
+### 8) Inconsistent error types
+The code alternates between `anyhow::Result` and `Result<_, StateError>` without a clear separation between layers.
+
+**Improvement**:
+- Define a policy: typed errors in the core, `anyhow` at the CLI boundary.
+
+### 9) Description default in `Task::new`
+The description is initialized with `Some(String::new())`.
+
+**Improvement**:
+- Prefer `None` as the absence of a value.
+- Show the description in the list only if present and not empty.
+
+### 10) Destructive `init` on an existing file
+`File::create` truncates the file if it is already present.
+
+**Improvement**:
+- Make `init` idempotent or make the behavior explicit with `--force`.
