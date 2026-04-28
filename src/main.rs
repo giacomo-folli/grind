@@ -2,7 +2,7 @@ use clap::Parser;
 
 use crate::{
     cli::{Args, Command},
-    models::{DefaultState, StateError, Task},
+    models::{DefaultState, Task},
 };
 
 mod cli;
@@ -66,12 +66,12 @@ fn update_task_status(task_id: String, task_status: DefaultState) -> anyhow::Res
         }
     }
 
-    let _ = storage::save(&tasks);
+    storage::save(&tasks)?;
 
     Ok(())
 }
 
-fn add_task(task_title: Option<String>, task_description: &Option<String>) -> Result<(), StateError> {
+fn add_task(task_title: Option<String>, task_description: &Option<String>) -> anyhow::Result<()> {
     let mut tasks = storage::load()?;
     let task_def_title;
 
@@ -89,12 +89,16 @@ fn add_task(task_title: Option<String>, task_description: &Option<String>) -> Re
 
     tasks.push(new_task);
 
-    let _ = storage::save(&tasks);
+    storage::save(&tasks)?;
 
     Ok(())
 }
 
-fn edit_task(id: String, task_title: &Option<String>, task_description: &Option<String>) -> Result<(), StateError> {
+fn edit_task(
+    id: String,
+    task_title: &Option<String>,
+    task_description: &Option<String>,
+) -> anyhow::Result<()> {
     let mut tasks = storage::load()?;
 
     for task in tasks.iter_mut() {
@@ -102,20 +106,18 @@ fn edit_task(id: String, task_title: &Option<String>, task_description: &Option<
             if let Some(desc) = task_description {
                 task.description = Some(desc.clone());
                 task.update_time();
-
-                break;
             }
 
             if let Some(title) = task_title {
                 task.title = title.clone();
                 task.update_time();
-
-                break;
             }
+
+            break;
         }
     }
 
-    let _ = storage::save(&tasks);
+    storage::save(&tasks)?;
 
     Ok(())
 }
@@ -125,7 +127,7 @@ fn delete_task(task_id: String) -> anyhow::Result<()> {
 
     tasks = tasks.iter().filter(|task| task.id != task_id).cloned().collect();
 
-    let _ = storage::save(&tasks);
+    storage::save(&tasks)?;
 
     Ok(())
 }

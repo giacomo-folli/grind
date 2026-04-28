@@ -1,5 +1,5 @@
 ## Recommended roadmap
-- [ ] Immediately fix `save` error handling.
+- [x] Immediately fix `save` error handling.
 - [ ] Introduce `TaskNotFound` and consistent feedback.
 - [ ] Fix `edit` to support multiple updates.
 - [ ] Remove panic risk in ID slicing.

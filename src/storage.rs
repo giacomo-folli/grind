@@ -3,9 +3,9 @@ use std::{
     io::Write,
 };
 
-use anyhow::Result;
+use anyhow::Context;
 
-use crate::models::{State, StateError, Task};
+use crate::models::{State, Task};
 
 pub const FILE: &str = "tasks.toml";
 
@@ -15,24 +15,24 @@ pub fn init() -> anyhow::Result<()> {
     Ok(())
 }
 
-pub fn load() -> Result<Vec<Task>, StateError> {
+pub fn load() -> anyhow::Result<Vec<Task>> {
     if !std::path::Path::new(FILE).exists() {
-        let _ = init();
+        init()?
     }
 
-    let raw = fs::read_to_string(FILE)?;
-    let parsed: State = toml::from_str(&raw)?;
+    let raw = fs::read_to_string(FILE).context("Failed to read tasks file")?;
+    let parsed: State = toml::from_str(&raw).context("Failed to parse tasks file")?;
+
     Ok(parsed.tasks)
 }
 
-pub fn save(tasks: &[Task]) -> Result<(), StateError> {
+pub fn save(tasks: &[Task]) -> anyhow::Result<()> {
     let state = State { tasks: tasks.to_owned() };
 
-    let res = toml::to_string(&state)?;
+    let res = toml::to_string(&state).context("Failed to serialize tasks")?;
+    let mut file = File::create(FILE).context("Failed to create tasks file")?;
 
-    let mut file = File::create(FILE)?;
-
-    file.write_all(res.as_bytes())?;
+    file.write_all(res.as_bytes()).context("Failed to write tasks file")?;
 
     Ok(())
 }

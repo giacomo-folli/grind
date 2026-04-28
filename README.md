@@ -72,10 +72,14 @@ updated_at = "2026-04-21T10:00:00Z"
 - [x] Input validation
 
 ### Milestone 3: Polish (Week 3)
-- [ ] Consider switching to `ratatui` 
 - [ ] Status-based filtering
 - [x] Error handling with anyhow/thiserror
 - [ ] Refactor filtering methods, etc...
+- [x] Fix `save` ignoring errors
+
+### Milestone 3: Polish (Week 3)
+- [ ] Consider switching to `ratatui`
+- [ ] Implement codefixed specified in [CODE_REVIEW.md](CODE_REVIEW.md)
 
 ### Milestone 4: Nice-to-Haves (Backlog)
 - [x] Quick add `act add`
