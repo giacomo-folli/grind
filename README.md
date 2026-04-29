@@ -82,6 +82,7 @@ updated_at = "2026-04-21T10:00:00Z"
 - [ ] Implement codefixed specified in [CODE_REVIEW.md](CODE_REVIEW.md)
 
 ### Milestone 4: Nice-to-Haves (Backlog)
+- [ ] Multiple storage files support
 - [x] Quick add `grind add`
 - [ ] Consider switching to `ratatui`
 - [ ] Task priorities
