@@ -3,7 +3,7 @@ use clap::Parser;
 use crate::{
     cli::{Args, Command},
     errors::TaskError,
-    models::{DefaultState, Task},
+    models::{DefaultStatus, Task},
 };
 
 mod cli;
@@ -21,7 +21,11 @@ fn main() -> anyhow::Result<()> {
             let mut tasks = storage::load()?;
 
             if let Some(res) = status {
-                tasks = tasks.iter().filter(|ts| ts.state == res).cloned().collect();
+                tasks = tasks
+                    .iter()
+                    .filter(|ts| ts.status == res)
+                    .cloned()
+                    .collect();
             }
 
             commands::list_tasks(&tasks)
@@ -52,11 +56,11 @@ fn show_task(task_id: String) -> anyhow::Result<()> {
     }
 }
 
-fn update_task_status(task_id: String, task_status: DefaultState) -> anyhow::Result<()> {
+fn update_task_status(task_id: String, task_status: DefaultStatus) -> anyhow::Result<()> {
     let mut tasks = storage::load()?;
 
     if let Some(res) = tasks.iter_mut().find(|task| task.id == task_id) {
-        res.state = task_status;
+        res.status = task_status;
         res.update_time();
 
         storage::save(&tasks)?;

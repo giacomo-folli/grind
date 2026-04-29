@@ -4,14 +4,14 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, PartialEq, Clone, ValueEnum, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
-pub enum DefaultState {
+pub enum DefaultStatus {
     Todo,
     Doing,
     Done,
 }
 
 #[derive(Serialize, Deserialize)]
-pub struct State {
+pub struct Storage {
     #[serde(default)]
     pub tasks: Vec<Task>,
 }
@@ -21,7 +21,7 @@ pub struct Task {
     pub id: String,
     pub title: String,
     pub description: Option<String>,
-    pub state: DefaultState,
+    pub status: DefaultStatus,
     pub created_at: String,
     pub updated_at: String,
 }
@@ -30,7 +30,7 @@ impl Task {
     pub fn new(title: String) -> Self {
         Self {
             id: nanoid!(8),
-            state: DefaultState::Todo,
+            status: DefaultStatus::Todo,
             created_at: chrono::Local::now().to_rfc2822(),
             updated_at: chrono::Local::now().to_rfc2822(),
             description: Some(String::new()),

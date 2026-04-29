@@ -1,10 +1,16 @@
 ## Recommended roadmap
 - [x] Immediately fix `save` error handling.
-- [ ] Introduce `TaskNotFound` and consistent feedback.
+- [x] Introduce `TaskNotFound` and consistent feedback.
 - [x] Fix `edit` to support multiple updates.
-- [ ] Remove panic risk in ID slicing.
+- [x] Remove panic risk in ID slicing.
 - [ ] Extract the service layer and add unit tests to the core.
-- [ ] Align README and the actual data model.
+- [x] Align README and the actual data model.
+- [ ] Rust methods and robustness
+- [ ] Inconsistent error types
+- [ ] Description default in `Task::new`
+- [ ] Destructive `init` on an existing file
+- [ ] Time management can be improved
+
 
 ### 1) Ignored save errors
 In several functions, `let _ = storage::save(&tasks);` is used.

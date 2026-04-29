@@ -32,14 +32,14 @@ Act stores tasks in `tasks.toml` in the current directory. Each task has a title
 id = "UHLaIonm"
 title = "Implement add command"
 description = "Support adding tasks via CLI"
-state = "doing"
+status = "doing"
 created_at = "2026-04-21T09:00:00Z"
 updated_at = "2026-04-21T11:00:00Z"
 
 [[task]]
 id = "wVarLogf"
 title = "Write tests"
-state = "todo"
+status = "todo"
 created_at = "2026-04-21T10:00:00Z"
 updated_at = "2026-04-21T10:00:00Z"
 ```
@@ -72,9 +72,9 @@ updated_at = "2026-04-21T10:00:00Z"
 - [x] Input validation
 
 ### Milestone 3: Polish (Week 3)
-- [ ] Status-based filtering
+- [x] Status-based filtering
 - [x] Error handling with anyhow/thiserror
-- [ ] Refactor filtering methods, etc...
+- [x] Refactor filtering methods
 - [x] Fix `save` ignoring errors
 
 ### Milestone 3: Polish (Week 3)
@@ -109,6 +109,7 @@ src/
 ├── cli.rs        # Argument definitions (clap)
 ├── commands.rs   # Command handlers
 ├── storage.rs    # TOML read/write
+├── errors.rs     # Custom errors
 └── models.rs     # Task struct, Status enum
 ```
 

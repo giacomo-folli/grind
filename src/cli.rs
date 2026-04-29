@@ -2,16 +2,16 @@
 
 use clap::{Parser, Subcommand};
 
-use crate::models::DefaultState;
+use crate::models::DefaultStatus;
 
 #[derive(Subcommand, Debug)]
 pub enum Command {
-    /// Create the todo.toml state file
+    /// Create the todo.toml status file
     Init,
-    /// View the current state
+    /// View the current status
     List {
         #[arg(short, long)]
-        status: Option<DefaultState>,
+        status: Option<DefaultStatus>,
     },
     /// Edit a task
     Edit {
@@ -30,7 +30,7 @@ pub enum Command {
         description: Option<String>,
     },
     /// Change a task's status
-    Status { id: String, status: DefaultState },
+    Status { id: String, status: DefaultStatus },
     /// Delete a task
     Delete { id: String },
 }
@@ -42,7 +42,7 @@ pub struct Args {
     /// Name of the person to greet
     #[command(subcommand)]
     pub command: Command,
-    // State file
+    // Storage file
     // #[arg(default_value_t = String::from(FILE))]
     // pub file: String,
 }
