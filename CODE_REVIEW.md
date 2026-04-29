@@ -1,7 +1,7 @@
 ## Recommended roadmap
 - [x] Immediately fix `save` error handling.
 - [ ] Introduce `TaskNotFound` and consistent feedback.
-- [ ] Fix `edit` to support multiple updates.
+- [x] Fix `edit` to support multiple updates.
 - [ ] Remove panic risk in ID slicing.
 - [ ] Extract the service layer and add unit tests to the core.
 - [ ] Align README and the actual data model.
