@@ -1,0 +1,31 @@
+# Unlock powerful formatting features (requires `cargo +nightly fmt`)
+unstable_features = true
+
+# --- Imports ---
+# Groups imports into `std`, external crates, and local modules
+group_imports = "StdExternalCrate"
+# Merges nested imports from the same crate into a single line
+imports_granularity = "Crate"
+
+# --- Alignment ---
+# Aligns struct fields and enum variants for excellent vertical readability
+struct_field_align_threshold = 20
+enum_discrim_align_threshold = 20
+
+# --- Comments & Strings ---
+# Automatically wraps long comments to fit the line limit
+wrap_comments = true
+# Normalizes `/* */` comments to `//` where appropriate
+normalize_comments = true
+# Formats multi-line string literals more cleanly
+format_strings = true
+
+# --- General ---
+# Forces a trailing comma even on single-line items (reduces git diff noise later)
+match_block_trailing_comma = true
+
+# Maximum width of each line before wrapping (Default is 100)
+max_width = 80
+
+# Forces rustfmt to pack as much into a single line as possible
+# use_small_heuristics = "Max"

@@ -7,7 +7,7 @@ use comfy_table::{
 
 use crate::models::{DefaultStatus, Task};
 
-pub fn list_tasks(tasks: &[Task]) {
+pub fn display_tasks(tasks: &[Task]) {
     let mut table = Table::new();
 
     table
@@ -32,7 +32,8 @@ pub fn list_tasks(tasks: &[Task]) {
             Cell::new(sliced_or_raw_id).fg(Color::DarkGrey),
             Cell::new(format_title(task)),
             format_status(&task.status),
-            Cell::new(format_relative_time(&task.updated_at)).fg(Color::DarkGrey),
+            Cell::new(format_relative_time(&task.updated_at))
+                .fg(Color::DarkGrey),
         ]);
     }
 

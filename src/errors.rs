@@ -8,7 +8,9 @@ pub enum TaskError {
 impl fmt::Display for TaskError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            TaskError::TaskNotFound(id) => write!(f, "Task with ID '{}' not found.", id),
+            TaskError::TaskNotFound(id) => {
+                write!(f, "Task with ID '{}' not found.", id)
+            },
         }
     }
 }
